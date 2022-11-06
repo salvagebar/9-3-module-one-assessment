@@ -162,7 +162,17 @@ function findById(movies, id) {
  *  filterByGenre(movies, "Horror")
  *  //> []
  */
-function filterByGenre() {}
+function filterByGenre(movies, genre) {
+  let genreMovies = []; // the array we'll return
+  genre = genre[0].toUpperCase() + genre.slice(1).toLowerCase(); // normalize the genre parameter string so it is capitalized like the genres in the movies array
+  for (const movie of movies) {
+    // loop through the array
+    if (movie.genre.split(", ").includes(genre)) { // split the movie genre string into an array, and check if that array includes the genre parameter string as one of its elements
+      genreMovies.push(movie); // add the movie object to the final array if it passes the test
+    }
+  }
+  return genreMovies; // return final array
+}
 
 /**
  * getAllMoviesReleasedAtOrBeforeYear()
@@ -186,7 +196,9 @@ function filterByGenre() {}
       }
     ];
  */
-function getAllMoviesReleasedAtOrBeforeYear() {}
+function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
+  
+}
 
 /**
  * getBiggestBoxOfficeMovie()
