@@ -29,11 +29,12 @@ const exampleMovies = require("./movies");
     ];
  */
 function getAllMovieTitles(movies) {
-  let movieArray = [];
+  let movieArray = []; // array we'll return
   for (const movie of movies) {
-    movieArray.push(movie.title);
+    // loop through movies
+    movieArray.push(movie.title); // add current movie's title to returned array
   }
-  return movieArray;
+  return movieArray; // return final array
 }
 
 /**
@@ -48,16 +49,18 @@ function getAllMovieTitles(movies) {
  *  //> 96
  */
 function getHighestMetascore(movies) {
-  let highestScore = 0;
-  let holderScore;
+  let highestScore = 0; // what we'll return, accumulator
+  let holderScore; // intermediate array
   for (const movie of movies) {
-    let score = movie.ratings[2].value;
-    holderScore = score.split("/");
+    // loop through movies
+    let score = movie.ratings[2].value; // pull out the Metacritic score
+    holderScore = score.split("/"); // split the string at the slash into an array with two elements
     if (Number(holderScore[0]) > highestScore) {
-      highestScore = Number(holderScore[0]);
+      // make a number out of the first element in that array, and test if it's the highest score so far
+      highestScore = Number(holderScore[0]); // replace our accumulator with highest score so far
     }
   }
-  return highestScore;
+  return highestScore; // return our var
 }
 
 /**
@@ -72,23 +75,25 @@ function getHighestMetascore(movies) {
  *  //> 7.76
  */
 function getAverageIMDBRating(movies) {
-  let averageScore = 0;
-  let scoreArray = [];
+  let averageScore = 0; // what we'll return
+  let scoreArray = []; // intermediate array for holding numbers we collect
 
   if (!movies.length) {
     return averageScore;
-  }
+  } // if no movies are passed into the function, return zero
   for (const movie of movies) {
-    let score = movie.ratings[0].value;
-    let scoreValue = score.split("/");
-    scoreArray.push(Number(scoreValue[0]));
+    // loop through movies
+    let score = movie.ratings[0].value; // pull the iMDB score out of the ratings array in the current movie object
+    let scoreValue = score.split("/"); // split the string at the slash into an array with two elements
+    scoreArray.push(Number(scoreValue[0])); // convert the string into a number and add it to our intermediate array
   }
-  let sum = 0;
+  let sum = 0; // the sum of all scores
   for (const number of scoreArray) {
-    sum += number;
+    // loop through intermediate array
+    sum += number; // get total sum of all numbers in array
   }
-  averageScore = sum / scoreArray.length;
-  return averageScore;
+  averageScore = sum / scoreArray.length; // calculate the average
+  return averageScore; // return the average
 }
 
 /**
@@ -103,15 +108,17 @@ function getAverageIMDBRating(movies) {
  *  //> { G: 3, PG: 7 }
  */
 function countByRating(movies) {
-  let ratingsObject = {};
+  let ratingsObject = {}; // the object we'll return
   for (const movie of movies) {
+    // loop through movies
     if (ratingsObject[movie.rated]) {
-      ratingsObject[movie.rated]++;
+      // check for a key of the current movie's rating in the object
+      ratingsObject[movie.rated]++; // increment the value for that key
     } else {
-      ratingsObject[movie.rated] = 1;
+      ratingsObject[movie.rated] = 1; // else create the key in the object and initialize it's value to 1
     }
   }
-  return ratingsObject;
+  return ratingsObject; // return final object
 }
 
 /**
@@ -129,14 +136,17 @@ function countByRating(movies) {
     };
  */
 function findById(movies, id) {
-  let movie = null;
-  let holderArray = [];
+  let movie = null; // movie we'll return
+
   if (!movies.length) {
+    // if no movies are passed to the fn, return null
     return movie;
   }
   for (const movie of movies) {
+    // loop through movies
     if (movie.imdbID === id) {
-      return movie;
+      // check if current movie's id matches the parameter id
+      return movie; // if it matches, return the current movie
     }
   }
   return movie;
@@ -167,7 +177,8 @@ function filterByGenre(movies, genre) {
   genre = genre[0].toUpperCase() + genre.slice(1).toLowerCase(); // normalize the genre parameter string so it is capitalized like the genres in the movies array
   for (const movie of movies) {
     // loop through the array
-    if (movie.genre.split(", ").includes(genre)) { // split the movie genre string into an array, and check if that array includes the genre parameter string as one of its elements
+    if (movie.genre.split(", ").includes(genre)) {
+      // split the movie genre string into an array, and check if that array includes the genre parameter string as one of its elements
       genreMovies.push(movie); // add the movie object to the final array if it passes the test
     }
   }
@@ -197,14 +208,17 @@ function filterByGenre(movies, genre) {
     ];
  */
 function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
-  movieArray = [];
+  movieArray = []; // array we'll return
+
   for (const movie of movies) {
-    let movieYear = Number(movie.released.split(" ")[2]);
+    // loop through movies
+    let movieYear = Number(movie.released.split(" ")[2]); // split the 'released' string at the spaces and convert the third element, the year, into a number
     if (movieYear <= year) {
-      movieArray.push(movie);
+      // check if that year is less than or equal to the year parameter
+      movieArray.push(movie); // if so, add movie to our final array
     }
   }
-  return movieArray;
+  return movieArray; // return relevant movies
 }
 
 /**
@@ -219,14 +233,16 @@ function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
  *  //> "Incredibles 2"
  */
 function getBiggestBoxOfficeMovie(movies) {
-  let boxOfficeHighest = 0;
-  let highBOMovie = null;
+  let boxOfficeHighest = 0; // accumulator
+  let highBOMovie = null; // what we return
 
   for (const movie of movies) {
-    let boxOfficeNum = Number(movie.boxOffice.replace(/[^0-9]/g, ""));
+    // looping through movies
+    let boxOfficeNum = Number(movie.boxOffice.replace(/[^0-9]/g, "")); // Regex to strip out anything that's not a digit from our boxOffice string
     if (boxOfficeNum > boxOfficeHighest) {
-      boxOfficeHighest = boxOfficeNum;
-      highBOMovie = movie.title;
+      // is the current movie's box office bigger than what we have stored?
+      boxOfficeHighest = boxOfficeNum; // replace accumulator var with current highest value
+      highBOMovie = movie.title; // replace return var with current movie's title
     }
   }
   return highBOMovie;
