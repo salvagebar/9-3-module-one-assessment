@@ -28,7 +28,13 @@ const exampleMovies = require("./movies");
       "James and the Giant Peach",
     ];
  */
-function getAllMovieTitles() {}
+function getAllMovieTitles(movies) {
+  let movieArray = [];
+  for (const movie of movies) {
+    movieArray.push(movie.title);
+  }
+  return movieArray;
+}
 
 /**
  * getHighestMetascore()
@@ -41,7 +47,18 @@ function getAllMovieTitles() {}
  *  getHighestMetascore(movies);
  *  //> 96
  */
-function getHighestMetascore() {}
+function getHighestMetascore(movies) {
+  let highestScore = 0;
+  let holderScore;
+  for (const movie of movies) {
+    let score = movie.ratings[2].value;
+    holderScore = score.split("/");
+    if (Number(holderScore[0]) > highestScore) {
+      highestScore = Number(holderScore[0]);
+    }
+  }
+  return highestScore;
+}
 
 /**
  * getAverageIMDBRating()
@@ -54,7 +71,25 @@ function getHighestMetascore() {}
  *  getAverageIMDBRating(movies);
  *  //> 7.76
  */
-function getAverageIMDBRating() {}
+function getAverageIMDBRating(movies) {
+  let averageScore = 0;
+  let scoreArray = [];
+
+  if (!movies.length) {
+    return averageScore;
+  }
+  for (const movie of movies) {
+    let score = movie.ratings[0].value;
+    let scoreValue = score.split("/");
+    scoreArray.push(Number(scoreValue[0]));
+  }
+  let sum = 0;
+  for (const number of scoreArray) {
+    sum += number;
+  }
+  averageScore = sum / scoreArray.length;
+  return averageScore;
+}
 
 /**
  * countByRating()
@@ -67,7 +102,9 @@ function getAverageIMDBRating() {}
  *  countByRating(movies);
  *  //> { G: 3, PG: 7 }
  */
-function countByRating() {}
+function countByRating(movies) {
+  
+}
 
 /**
  * findById()
